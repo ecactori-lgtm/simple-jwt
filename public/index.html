@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>JWT Workbench</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="JWT Workbench home"><span class="brand-icon" aria-hidden="true">{ }</span> JWT<span class="brand-light">Workbench</span></a>
+      <span class="local-badge"><span aria-hidden="true">●</span> Local developer tool</span>
+    </header>
+    <main>
+      <div class="intro">
+        <p class="eyebrow">YOUR PAYLOAD. YOUR TOKEN.</p>
+        <h1>A little less setup.<br>A token in seconds.</h1>
+        <p class="subtitle">Define your claims, add a secret, and generate a signed JSON Web Token.</p>
+      </div>
+      <div class="workspace">
+        <section class="panel" aria-labelledby="parameters-title">
+          <div class="panel-heading"><h2 id="parameters-title"><span class="step">01</span> Token parameters</h2><span class="algorithm">HS256</span></div>
+          <form id="token-form">
+            <div class="field"><label for="subject">Subject <span class="claim-name">sub</span></label><input id="subject" name="subject" placeholder="e.g. user_123" maxlength="512" autocomplete="off"><p class="hint">The user or entity this token belongs to.</p></div>
+            <div class="field-row">
+              <div class="field"><label for="issuer">Issuer <span class="claim-name">iss</span></label><input id="issuer" name="issuer" placeholder="e.g. my-app" maxlength="512" autocomplete="off"></div>
+              <div class="field"><label for="audience">Audience <span class="claim-name">aud</span></label><input id="audience" name="audience" placeholder="e.g. my-api" maxlength="512" autocomplete="off"></div>
+            </div>
+            <div class="field"><label for="expires-in">Expires in <span class="claim-name">exp</span></label><select id="expires-in" name="expiresIn"><option value="300">5 minutes</option><option value="900">15 minutes</option><option value="3600" selected>1 hour</option><option value="86400">24 hours</option><option value="604800">7 days</option></select></div>
+            <div class="field"><div class="label-row"><label for="claims">Custom claims <span class="optional">optional</span></label><button id="format-claims" class="text-button" type="button">Format JSON</button></div><textarea id="claims" name="claims" rows="6" spellcheck="false" aria-describedby="claims-hint">{
+  "name": "Alex Morgan",
+  "role": "developer"
+}</textarea><p class="hint" id="claims-hint">A JSON object with any additional claims. Leave empty for none.</p></div>
+            <div class="secret-section"><div class="label-row"><label for="secret">Signing secret</label><button id="generate-secret" class="text-button" type="button">Generate secret ↗</button></div><div class="secret-input"><input id="secret" name="secret" type="password" required autocomplete="off" spellcheck="false" aria-describedby="secret-hint" placeholder="Enter a secret (at least 32 bytes)"><button id="toggle-secret" class="text-button" type="button" aria-label="Show signing secret" aria-pressed="false">Show</button></div><p class="hint" id="secret-hint">Used by your local server to sign the token. Never saved.</p></div>
+            <p id="form-error" class="error" role="alert" hidden></p>
+            <button id="generate-token" class="primary-button" type="submit">Generate token <span aria-hidden="true">→</span></button>
+          </form>
+        </section>
+        <section class="panel result-panel" aria-labelledby="result-title">
+          <div class="panel-heading"><h2 id="result-title"><span class="step">02</span> Your token</h2><span id="result-badge" class="result-badge">Ready when you are</span></div>
+          <div id="empty-state" class="empty-state"><div class="empty-icon" aria-hidden="true">{ · }</div><h3>A token starts with your claims.</h3><p>Fill in the parameters and generate your token.<br>Your signed JWT and decoded payload will appear here.</p><div class="token-anatomy" aria-hidden="true"><span>header</span><b>.</b><span>payload</span><b>.</b><span>signature</span></div></div>
+          <div id="token-result" class="token-result" hidden>
+            <div class="label-row"><h3>Encoded token</h3><button id="copy-token" type="button" class="secondary-button">Copy token</button></div>
+            <div class="token-box"><code id="token" tabindex="0" aria-label="Generated JWT"></code></div>
+            <p class="token-meta" id="token-meta"></p>
+            <div class="decoded-block"><div class="label-row"><h3>Header</h3><span class="code-caption">ALGORITHM & TYPE</span></div><pre id="decoded-header" tabindex="0" aria-label="Decoded header"></pre></div>
+            <div class="decoded-block"><div class="label-row"><h3>Payload</h3><span class="code-caption">CLAIMS</span></div><pre id="decoded-payload" tabindex="0" aria-label="Decoded payload"></pre></div>
+            <p id="copy-status" class="hint" role="status" aria-live="polite"></p>
+          </div>
+          <div class="result-note"><span aria-hidden="true">ⓘ</span><p>Signed, not encrypted. Anyone with this token can read its payload. Keep sensitive data out of your claims.</p></div>
+        </section>
+      </div>
+      <footer><span>Built for the small things that slow you down.</span><span>HS256 signing · No storage · No external requests</span></footer>
+      <p id="app-status" class="sr-only" role="status" aria-live="polite"></p>
+      <noscript><p class="error">Enable JavaScript to use the token generator.</p></noscript>
+    </main>
+  </body>
+</html>
